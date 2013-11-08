@@ -1,0 +1,43 @@
+<doctype html>
+<html>
+	<head>
+		<title>Pong</title>
+		<script type="text/javascript">
+			(function(){
+				document.body.innerHTML = '';
+				var child = document.createElement('span');
+				child.id = 'block';
+				child.style.position = 'absolute';
+				child.style.display = 'block';
+				child.style.width = '50px';
+				child.style.height = '50px';
+				child.style.background = 'red';
+				child.style.top = '0px';
+				child.style.left = '0px';
+				document.body.appendChild(child);
+				var dirX = 1, dirY = 1;
+				var block = document.getElementById('block');
+				var posX = 0, posY = 0;
+				setInterval(function () {
+				  if(dirX == 1 && posX + dirX + 50 > document.documentElement.clientWidth) {
+					  dirX = -1;
+					} else if(dirX == -1 && posX < 0) {
+					  dirX = 1;
+					}
+					if(dirY == 1 && posY + dirY + 50 > document.documentElement.clientHeight) {
+					  dirY = -1;
+					} else if(dirY == -1 && posY < 0) {
+					  dirY = 1;
+					}
+					posX = posX + dirX;
+					posY = posY + dirY;
+					block.style.left = posX + 'px';
+					block.style.top = posY + 'px';
+				}, 0);
+			})();
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>
