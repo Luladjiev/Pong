@@ -10,7 +10,7 @@
 				document.body.innerHTML = '';
 				var child = document.createElement('span'),
 					blockSize = 50,
-					dirX = 1, dirY = 1,
+					dirX = 1 + Math.random(), dirY = 1 + Math.random(),
 					posX =  parseInt(document.documentElement.clientWidth / 2 + blockSize / 2), 
 					posY = parseInt(document.documentElement.clientHeight / 2 + blockSize / 2);
 				child.id = 'block';
@@ -24,19 +24,19 @@
 				document.body.appendChild(child);
 				var block = document.getElementById('block');
 				setInterval(function () {
-			  		if(dirX == 1 && posX + dirX + 50 > document.documentElement.clientWidth) {
+			  		if(dirX > 0 && posX + dirX + 50 > document.documentElement.clientWidth) {
 			  			block.style.background = getRandomColor();
-					  	dirX = -1;
-					} else if(dirX == -1 && posX < 0) {
+					  	dirX = -1 - Math.random();
+					} else if(dirX < 0 && posX < 0) {
 						block.style.background = getRandomColor();
-					  	dirX = 1;
+					  	dirX = 1 + Math.random();
 					}
-					if(dirY == 1 && posY + dirY + 50 > document.documentElement.clientHeight) {
+					if(dirY > 0 && posY + dirY + 50 > document.documentElement.clientHeight) {
 						block.style.background = getRandomColor();
-					  	dirY = -1;
-					} else if(dirY == -1 && posY < 0) {
+					  	dirY = -1 - Math.random();
+					} else if(dirY < 0 && posY < 0) {
 						block.style.background = getRandomColor();
-					  	dirY = 1;
+					  	dirY = 1 + Math.random();
 					}
 					posX = posX + dirX;
 					posY = posY + dirY;
