@@ -26,13 +26,13 @@
                         aY = pongA.y + aS,
                         bX = pongB.x + bS,
                         bY = pongB.y + bS,
-                        dx,
-                        dy;
+                        dX,
+                        dY;
                     
-                    dx = Math.abs(aX - bX);
-                    dy = Math.abs(aY - bY);
+                    dX = Math.abs(aX - bX);
+                    dY = Math.abs(aY - bY);
                     
-                    return Math.sqrt(dx * dx + dy * dy) < aS + bS + buffer;
+                    return Math.sqrt(dX * dX + dY * dY) < aS + bS + buffer;
                 },
                 isColliding = function (pong) {
                     var newPosX = pong.x + pong.dirX * pong.speed + (pong.dirX > 0 ? pong.size : 0),
@@ -48,8 +48,10 @@
                         otherPong,
                         collision;
 
-                    result.collideX = newPosX - buffer < 0 || newPosX + buffer > clientWidth;
-                    result.collideY = newPosY - buffer < 0 || newPosY + buffer > clientHeight;
+                    result.collideLeft = newPosX - buffer < 0;
+                    result.collideRight = newPosX + buffer > clientWidth;
+                    result.collideTop = newPosY - buffer < 0;
+                    result.collideBottom = newPosY + buffer > clientHeight;
 
                     for (i; i < l; i += 1) {
                         otherPong = pongs[i];
@@ -61,7 +63,7 @@
                         }
                     }
                     
-                    result.colliding = result.collideX || result.collideY || result.collidePong;
+                    result.colliding = result.collideLeft || result.collideRight || result.collideTop || result.collideBottom || result.collidePong;
 
                     return result;
                 },
@@ -122,11 +124,21 @@
                                 pong.speed = collision.otherPong.speed;
                                 collision.otherPong.speed = speed;
                             }
-                            if (collision.collideX === true) {
-                                pong.dirX = pong.dirX * -1;
+                            if (collision.collideLeft === true || collision.collideRight === true) {
+                                if (collision.collideLeft === true && pong.dirX === -1) {
+                                    pong.dirX = 1;
+                                }
+                                if (collision.collideRight === true && pong.dirX === 1) {
+                                    pong.dirX = -1;
+                                }
                             }
-                            if (collision.collideY === true) {
-                                pong.dirY = pong.dirY * -1;
+                            if (collision.collideTop === true || collision.collideBottom === true) {
+                                if (collision.collideTop === true && pong.dirY === -1) {
+                                    pong.dirY = 1;
+                                }
+                                if (collision.collideBottom === true && pong.dirY === 1) {
+                                    pong.dirY = -1;
+                                }
                             }
                         }
                         pong.x = pong.x + pong.dirX * pong.speed;
