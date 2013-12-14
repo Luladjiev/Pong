@@ -1,52 +1,12 @@
 <doctype html>
-<html>
-	<head>
-		<title>Pong</title>
-		<script type="text/javascript">
-			(function(){
-				var getRandomColor = function() {
-					return "#" + Math.floor(Math.random()*16777215).toString(16);
-				}
-				document.body.innerHTML = '';
-				var child = document.createElement('span'),
-					blockSize = 50,
-					dirX = 1 + Math.random(), dirY = 1 + Math.random(),
-					posX =  parseInt(document.documentElement.clientWidth / 2 + blockSize / 2), 
-					posY = parseInt(document.documentElement.clientHeight / 2 + blockSize / 2);
-				child.id = 'block';
-				child.style.position = 'absolute';
-				child.style.display = 'block';
-				child.style.width = blockSize + 'px';
-				child.style.height = blockSize + 'px';
-				child.style.background = getRandomColor();
-				child.style.left = posX + 'px';
-				child.style.top = posY + 'px';
-				document.body.appendChild(child);
-				var block = document.getElementById('block');
-				setInterval(function () {
-			  		if(dirX > 0 && posX + dirX + 50 > document.documentElement.clientWidth) {
-			  			block.style.background = getRandomColor();
-					  	dirX = -1 - Math.random();
-					} else if(dirX < 0 && posX < 0) {
-						block.style.background = getRandomColor();
-					  	dirX = 1 + Math.random();
-					}
-					if(dirY > 0 && posY + dirY + 50 > document.documentElement.clientHeight) {
-						block.style.background = getRandomColor();
-					  	dirY = -1 - Math.random();
-					} else if(dirY < 0 && posY < 0) {
-						block.style.background = getRandomColor();
-					  	dirY = 1 + Math.random();
-					}
-					posX = posX + dirX;
-					posY = posY + dirY;
-					block.style.left = posX + 'px';
-					block.style.top = posY + 'px';
-				}, 0);
-			})();
-		</script>
-	</head>
-	<body>
+  <html>
 
-	</body>
-</html>
+  <head>
+    <title>Pong</title>
+    <script type="text/javascript" src="pong.js"></script>
+  </head>
+
+  <body>
+  </body>
+
+  </html>
