@@ -13,14 +13,31 @@
                     while (color === '#ffffff') {
                         color = '#' + Math.floor(Math.random() * 16777215).toString(16);
                     }
+                    while (color.length < 7) {
+                        color += 'f';
+                    }
                     return color;
                 },
                 areColliding = function (pongA, pongB) {
-                    return (Math.abs(pongA.x - pongB.x) * 2 < pongA.size + pongB.size) && (Math.abs(pongA.y - pongB.y) * 2 < pongA.size + pongB.size);
+                    var buffer = 5,
+                        aS = (pongA.size / 2),
+                        bS = (pongB.size / 2),
+                        aX = pongA.x + aS,
+                        aY = pongA.y + aS,
+                        bX = pongB.x + bS,
+                        bY = pongB.y + bS,
+                        dx,
+                        dy;
+                    
+                    dx = Math.abs(aX - bX);
+                    dy = Math.abs(aY - bY);
+                    
+                    return Math.sqrt(dx * dx + dy * dy) < aS + bS + buffer;
                 },
                 isColliding = function (pong) {
                     var newPosX = pong.x + pong.dirX * pong.speed + (pong.dirX > 0 ? pong.size : 0),
                         newPosY = pong.y + pong.dirY * pong.speed + (pong.dirY > 0 ? pong.size : 0),
+                        buffer = 10,
                         result = {
                             collideX: false,
                             collideY: false,
@@ -31,8 +48,8 @@
                         otherPong,
                         collision;
 
-                    result.collideX = newPosX < 0 || newPosX > clientWidth;
-                    result.collideY = newPosY < 0 || newPosY > clientHeight;
+                    result.collideX = newPosX - buffer < 0 || newPosX + buffer > clientWidth;
+                    result.collideY = newPosY - buffer < 0 || newPosY + buffer > clientHeight;
 
                     for (i; i < l; i += 1) {
                         otherPong = pongs[i];
@@ -68,6 +85,7 @@
                     element.style.width = blockSize + 'px';
                     element.style.height = blockSize + 'px';
                     element.style.background = getRandomColor();
+                    element.style.borderRadius = blockSize + 'px';
 
                     pong = {
                         id: pongId += 1,
@@ -91,12 +109,6 @@
                         pong = pongs[i];
                         collision = isColliding(pong);
                         if (collision.colliding) {
-                            if (collision.collideX === true) {
-                                pong.dirX = pong.dirX * -1;
-                            }
-                            if (collision.collideY === true) {
-                                pong.dirY = pong.dirY * -1;
-                            }
                             if (collision.collidePong === true) {
                                 if ((pong.dirX < 0 && collision.otherPong.dirX > 0) || (pong.dirX > 0 && collision.otherPong.dirX < 0)) {
                                     pong.dirX = pong.dirX * -1;
@@ -109,6 +121,12 @@
                                 speed = pong.speed;
                                 pong.speed = collision.otherPong.speed;
                                 collision.otherPong.speed = speed;
+                            }
+                            if (collision.collideX === true) {
+                                pong.dirX = pong.dirX * -1;
+                            }
+                            if (collision.collideY === true) {
+                                pong.dirY = pong.dirY * -1;
                             }
                         }
                         pong.x = pong.x + pong.dirX * pong.speed;
