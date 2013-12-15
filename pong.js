@@ -1,4 +1,4 @@
-/*global document, console, requestAnimationFrame, cancelAnimationFrame*/
+/*global window, document, console, requestAnimationFrame, cancelAnimationFrame*/
 (function () {
     'use strict';
 
@@ -183,6 +183,6 @@
                 stop: stop
             };
         };
-    Program = new Pong(document.documentElement.clientWidth, document.documentElement.clientHeight);
+    Program = new Pong(window.innerWidth, window.innerHeight);
     Program.run(30);
 }());
